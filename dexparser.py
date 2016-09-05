@@ -152,15 +152,15 @@ class Dexparser:
 		class_defs_off = self.header['class_defs_off']
 		class_defs_size = self.header['class_defs_size']
 
-		for i in range(0, class_defs_size, 4):
-			class_idx 			= struct.unpack('<L', self.mmap[class_defs_off+(i*8)   :class_defs_off+(i*8)+4])[0]
-			access_flag 		= struct.unpack('<L', self.mmap[class_defs_off+(i*8)+4 :class_defs_off+(i*8)+8])[0]
-			superclass_idx 		= struct.unpack('<L', self.mmap[class_defs_off+(i*8)+8 :class_defs_off+(i*8)+12])[0]
-			interfaces_off 		= struct.unpack('<L', self.mmap[class_defs_off+(i*8)+12:class_defs_off+(i*8)+16])[0]
-			source_file_idx 	= struct.unpack('<L', self.mmap[class_defs_off+(i*8)+16:class_defs_off+(i*8)+20])[0]
-			annotation_off 		= struct.unpack('<L', self.mmap[class_defs_off+(i*8)+20:class_defs_off+(i*8)+24])[0]
-			class_data_off 		= struct.unpack('<L', self.mmap[class_defs_off+(i*8)+24:class_defs_off+(i*8)+28])[0]
-			static_values_off 	= struct.unpack('<L', self.mmap[class_defs_off+(i*8)+28:class_defs_off+(i*8)+32])[0]
+		for i in range(class_defs_size):
+			class_idx 			= struct.unpack('<L', self.mmap[class_defs_off+(i*32)   :class_defs_off+(i*32)+4])[0]
+			access_flag 		= struct.unpack('<L', self.mmap[class_defs_off+(i*32)+4 :class_defs_off+(i*32)+8])[0]
+			superclass_idx 		= struct.unpack('<L', self.mmap[class_defs_off+(i*32)+8 :class_defs_off+(i*32)+12])[0]
+			interfaces_off 		= struct.unpack('<L', self.mmap[class_defs_off+(i*32)+12:class_defs_off+(i*32)+16])[0]
+			source_file_idx 	= struct.unpack('<L', self.mmap[class_defs_off+(i*32)+16:class_defs_off+(i*32)+20])[0]
+			annotation_off 		= struct.unpack('<L', self.mmap[class_defs_off+(i*32)+20:class_defs_off+(i*32)+24])[0]
+			class_data_off 		= struct.unpack('<L', self.mmap[class_defs_off+(i*32)+24:class_defs_off+(i*32)+28])[0]
+			static_values_off 	= struct.unpack('<L', self.mmap[class_defs_off+(i*32)+28:class_defs_off+(i*32)+32])[0]
 			sorted_access = [i for i in disassembler.ACCESS_ORDER if i & access_flag]
 			classdef_data.append([class_idx, [disassembler.access_flag_classes[flag] for flag in sorted_access], superclass_idx, interfaces_off, source_file_idx, annotation_off, class_data_off, static_values_off])
 
