@@ -2,7 +2,6 @@
 
 Powerful DEX file format parser for Pythonist!
 
-## Status
 [![Build Status](https://travis-ci.com/bunseokbot/dexparser.svg?branch=master)](https://travis-ci.com/bunseokbot/dexparser)
 
 ## Usage
