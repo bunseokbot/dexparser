@@ -2,7 +2,14 @@
 
 Powerful DEX file format parser for Pythonist!
 
+## Status
+
 ## Usage
+
+### Pre-requirements
+
+* Python 3.x
+* DEX friendly mind
 
 ### Install
 `pip install dexparser`
