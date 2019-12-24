@@ -9,7 +9,7 @@ Powerful DEX file format parser for Pythonist!
 
 ### Pre-requirements
 
-* Python 3.x
+* Python 3.x (Unofficially, dexparser support Python 2.x)
 * DEX friendly mind
 
 ### Install
