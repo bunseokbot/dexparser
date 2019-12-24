@@ -1,0 +1,2 @@
+class InsufficientParameterError(Exception):
+    pass

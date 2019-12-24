@@ -1,10 +1,4 @@
-"""
-@author : bunseokbot@S.S.G.
-@description : hand write opcodes and descriptions.. fuck!
-@contact : admin@smishing.kr
-"""
 opcode = {
-
 		0x00 : 'nop',
 		0x01 : 'move',
 		0x02 : 'move/from16',
@@ -191,7 +185,7 @@ opcode = {
 		0xAD : 'mul-double',
 		0xAE : 'div-double',
 		0xAF : 'rem-double',
-		
+
 		0xB0 : 'add-int/2addr',
 		0xB1 : 'sub-int/2addr',
 		0xB2 : 'mul-int/2addr',
@@ -208,7 +202,7 @@ opcode = {
 		0xBD : 'mul-long/2addr',
 		0xBE : 'div-long/2addr',
 		0xBF : 'rem-long/2addr',
-		
+
 		0xC0 : 'and-long/2addr',
 		0xC1 : 'or-long/2addr',
 		0xC2 : 'xor-long/2addr',
@@ -225,7 +219,7 @@ opcode = {
 		0xCD : 'mul-double/2addr',
 		0xCE : 'div-double/2addr',
 		0xCF : 'rem-double/2addr',
-		
+
 		0xD0 : 'add-int/lit16',
 		0xD1 : 'sub-int/lit16',
 		0xD2 : 'mul-int/lit16',
@@ -242,7 +236,7 @@ opcode = {
 		0xDD : 'and-int/lit8',
 		0xDE : 'or-int/lit8',
 		0xDF : 'xor-int/lit8',
-		
+
 		0xE0 : 'shl-int/lit8',
 		0xE1 : 'shr-int/lit8',
 		0xE2 : 'ushr-int/lit8',
@@ -276,12 +270,10 @@ opcode = {
 		0xFD : 'unused',
 		0xFE : 'unused',
 		0xFF : 'unused'
-
 }
 
 #type code list
 typecode = {
-
 	0x0000 : 'TYPE_HEADER_ITEM', 
 	0x0001 : 'TYPE_STRING_ID_ITEM', 
 	0x0002 : 'TYPE_TYPE_ID_ITEM', 
@@ -300,7 +292,6 @@ typecode = {
 	0x2004 : 'TYPE_ANNOTATION_ITEM', 
 	0x2005 : 'TYPE_ENCODED_ARRAY_ITEM',	
 	0x2006 : 'TYPE_ANNOTATIONS_DIRECTORY_ITEM'
-
 }
 
 access_flag = {
@@ -366,13 +357,27 @@ access_flag_methods = {
     0x20000: 'declared_synchronized',
 }
 
-ACCESS_ORDER = [0x1, 0x4, 0x2, 0x400, 0x8, 0x10,
-                0x80, 0x40, 0x20, 0x100, 0x800,
-                0x200, 0x1000, 0x2000, 0x4000,
-                0x10000, 0x20000]
+ACCESS_ORDER = [
+    0x1,
+    0x4,
+    0x2,
+    0x400,
+    0x8,
+    0x10,
+    0x80,
+    0x40,
+    0x20,
+    0x100,
+    0x800,
+    0x200,
+    0x1000,
+    0x2000,
+    0x4000,
+    0x10000,
+    0x20000
+]
 
 field_descriptor = {
-	
 	'V': 'void',
 	'B': 'byte',
 	'C': 'char',
@@ -383,12 +388,9 @@ field_descriptor = {
 	'S': 'short',
 	'Z': 'boolean',
 	'[': 'array',
-
-
 }
 
 type_descriptor = {
-	
 	'V': 'void',
 	'Z': 'boolean',
 	'B': 'byte',
@@ -400,20 +402,16 @@ type_descriptor = {
 	'D': 'double',
 	'L': 'class',
 	'[': 'array'
-
 }
 
 visibility_values = {
-
 	0x00 : 'VISIBILITY_BUILD', 
 	0x01 : 'VISIBILITY_RUNTIME',
 	0x02 : 'VISIBILITY_SYSTEM'
-
 }
 
 
-value_type = {
-
+value_types = {
  	0x00 : 'VALUE_BYTE',
 	0x02 : 'VALUE_SHORT',
 	0x03 : 'VALUE_CHAR',
@@ -429,6 +427,5 @@ value_type = {
 	0x1c : 'VALUE_ARRAY',
 	0x1d : 'VALUE_ANNOTATION',
 	0x1e : 'VALUE_NULL',
-	0x1f : 'VALUE_BOOLEAN'
-	
+	0x1f : 'VALUE_BOOLEAN'	
 }
