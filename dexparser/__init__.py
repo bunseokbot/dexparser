@@ -8,6 +8,10 @@ import os
 
 
 class Dexparser(object):
+    """DEX file format parser class
+    :param string filedir: DEX file path
+    :param bytes fileobj: DEX file object
+    """
     def __init__(self, filedir=None, fileobj=None):
         if not filedir and not fileobj:
             raise InsufficientParameterError('fileobj or filedir parameter required.')
@@ -50,13 +54,38 @@ class Dexparser(object):
 
     @property
     def header(self):
+        """Get header data from DEX
+
+        :returns: header data
+
+        example:
+            >>> Dexparser(filedir='path/to/classes.dex').header
+            {'magic': 'dex\x035' ...}
+        """
         return self.header_data
 
     @property
     def checksum(self):
+        """Get checksum value of DEX file
+
+        :returns: hexlify value of checksum
+
+        example:
+            >>> Dexparser(filedir='path/to/classes.dex').checksum
+            0x30405060
+        """
         return "%x" %self.header_data.get('checksum')
 
     def get_strings(self):
+        """Get string items from DEX file
+
+        :returns: strings extracted from string_data_item section
+
+        example:
+            >>> dex = Dexparser(filedir='path/to/classes.dex')
+            >>> dex.get_strings()
+            ['Ljava/utils/getJavaUtils', ...]
+        """
         strings = []
         string_ids_off = self.header_data['string_ids_off']
 
@@ -69,6 +98,15 @@ class Dexparser(object):
         return strings
 
     def get_typeids(self):
+        """Get type ids from DEX file
+
+        :returns: descriptor_idx extracted from type_id_item section
+
+        example:
+            >>> dex = Dexparser(filedir='path/to/classes.dex')
+            >>> dex.get_typeids()
+            [133, 355, 773, 494, ...]
+        """
         typeids = []
         offset = self.header_data['type_ids_off']
 
@@ -79,6 +117,15 @@ class Dexparser(object):
         return typeids
 
     def get_methods(self):
+        """Get methods from DEX file
+
+        :returns: list of methods defined at DEX file
+
+        example:
+            >>> dex = Dexparser(filedir='path/to/classes.dex')
+            >>> dex.get_methods()
+            [{'class_idx': 132, 'proto_idx': 253, 'name_idx': 3005}, ...]
+        """
         methods = []
         offset = self.header_data['method_ids_off']
 
@@ -91,6 +138,15 @@ class Dexparser(object):
         return methods
 
     def get_protoids(self):
+        """Get proto idx from DEX file
+
+        :returns: list of proto ids defined at proto_id_item
+
+        example:
+            >>> dex = Dexparser(filedir='path/to/classes.dex')
+            >>> dex.get_protoids()
+            [{'shorty_idx': 3000, 'return_type_idx': 330, 'param_off': 0}, ...]
+        """
         protoids = []
         offset = self.header_data['proto_ids_off']
 
@@ -103,6 +159,15 @@ class Dexparser(object):
         return protoids
 
     def get_fieldids(self):
+        """Get field idx from DEX file
+
+        :returns: list of field ids defined at field_id_item
+
+        example:
+            >>> dex = Dexparser(filedir='path/to/classes.dex')
+            >>> dex.get_fieldids()
+            [{'class_idx': 339, 'type_idx': 334, 'name_idx': 340}, ...]
+        """
         fieldids = []
         offset = self.header_data['field_ids_off']
 
@@ -115,6 +180,27 @@ class Dexparser(object):
         return fieldids
 
     def get_classdef_data(self):
+        """Get class definition data from DEX file
+
+        :returns: list of class definition data extracted from class_def_item
+
+        example:
+            >>> dex = Dexparser(filedir='path/to/classes.dex')
+            >>> dex.get_classdef_data()
+            [
+                {
+                    'class_idx': 3049,
+                    'access_flags': 4000,
+                    'superclass_idx': 200,
+                    'interfaces_off': 343,
+                    'source_file_idx': 3182,
+                    'annotation_off': 343,
+                    'class_data_off': 345,
+                    'static_values_off': 8830
+                },
+                ...
+            ]
+        """
         classdef_data = []
         offset = self.header_data['class_defs_off']
 
@@ -142,6 +228,37 @@ class Dexparser(object):
         return classdef_data
 
     def get_class_data(self, offset):
+        """Get class specific data from DEX file
+
+        :param integer offset: class_idx offset value
+        :returns: specific data of class
+
+        example:
+            >>> dex = Dexparser(filedir='path/to/classes.dex')
+            >>> dex.get_class_data(offset=3022)
+            {
+                'static_fields': [
+                    {
+                        'diff': 30, 'access_flags': 4000
+                    }
+                ],
+                'instance_fields': [
+                    {
+                        'diff': 32, 'access_flags': 4000
+                    }
+                ],
+                'direct_methods': [
+                    {
+                        'diff': 30, 'access_flags': 4000, 'code_off': 384304
+                    }
+                ],
+                'virtual_methods': [
+                    {
+                        'diff': 63, 'access_flags': 4000, 'code_off': 483933
+                    }
+                ]
+            }
+        """
         static_fields = []
         instance_fields = []
         direct_methods = []
@@ -212,6 +329,23 @@ class Dexparser(object):
         }
 
     def get_annotations(self, offset):
+        """Get annotation data from DEX file
+
+        :param integer offset: annotation_off offset value
+        :returns: specific data of annotation
+
+        example:
+            >>> dex = Dexparser(filedir='path/to/classes.dex')
+            >>> dex.get_annotations(offset=3022)
+            {
+                'visibility': 3403,
+                'type_idx_diff': 3024,
+                'size_diff': 64,
+                'name_idx_diff': 30,
+                'value_type': 302,
+                'encoded_value': 7483
+            } 
+        """
         class_annotation_off = struct.unpack('<L', self.data[offset	:offset+4])[0]
         class_annotation_size = struct.unpack('<L', self.data[class_annotation_off:class_annotation_off+4])[0]
         annotation_off_item = struct.unpack('<L', self.data[class_annotation_off+4: class_annotation_off+8])[0]
