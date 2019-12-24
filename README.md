@@ -3,6 +3,7 @@
 Powerful DEX file format parser for Pythonist!
 
 [![Build Status](https://travis-ci.com/bunseokbot/dexparser.svg?branch=master)](https://travis-ci.com/bunseokbot/dexparser)
+[![PyPI version](https://badge.fury.io/py/dexparser.svg)](https://badge.fury.io/py/dexparser)
 
 ## Usage
 
