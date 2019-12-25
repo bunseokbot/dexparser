@@ -36,3 +36,7 @@ with open('classes.dex', 'rb') as fileobj:
 
 ## License
 This project is licensed under the MIT License
+
+## Reference
+* [Dalvik Executable Format](https://source.android.com/devices/tech/dalvik/dex-format)
+
