@@ -1,4 +1,4 @@
-from setuptools import setup
+from setuptools import setup, find_packages
 
 with open("README.md") as f:
 	long_description = f.read() 
@@ -10,6 +10,7 @@ setup(
 	author = 'austinkim',
 	author_email = 'bunseokbot@gmail.com',
 	url = 'https://github.com/bunseokbot/dexparser',
+        packages=find_packages(),
 	description = 'Powerful DEX file format parser for Pythonist',
 	long_description = long_description,
     long_description_content_type = 'text/markdown',
