@@ -5,10 +5,10 @@ with open("README.md") as f:
 
 setup(
 	name = 'dexparser',
-	version = '1.0.1',
+	version = '1.0.2',
 	py_modules = ['dexparser'],
 	author = 'austinkim',
-	author_email = 'bunseokbot@gmail.com',
+	author_email = 'austin.njkim@gmail.com',
 	url = 'https://github.com/bunseokbot/dexparser',
         packages=find_packages(),
 	description = 'Powerful DEX file format parser for Pythonist',
