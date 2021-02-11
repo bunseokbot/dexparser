@@ -130,9 +130,9 @@ class Dexparser(object):
         offset = self.header_data['method_ids_off']
 
         for i in range(self.header_data['method_ids_size']):
-            class_idx = struct.unpack('<L', self.data[offset+(i*12):offset+(i*12)+4])[0]
-            proto_idx = struct.unpack('<L', self.data[offset+(i*12)+4:offset+(i*12)+8])[0]
-            name_idx = struct.unpack('<L', self.data[offset+(i*12)+8:offset+(i*12)+12])[0]
+            class_idx = struct.unpack('<H', self.data[offset+(i*12):offset+(i*12)+2])[0]
+            proto_idx = struct.unpack('<H', self.data[offset+(i*12)+2:offset+(i*12)+4])[0]
+            name_idx = struct.unpack('<L', self.data[offset+(i*12)+4:offset+(i*12)+8])[0]
             methods.append({'class_idx': class_idx, 'proto_idx': proto_idx, 'name_idx': name_idx})
     
         return methods
