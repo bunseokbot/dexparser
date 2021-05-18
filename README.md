@@ -8,7 +8,7 @@ Powerful DEX file format parser for Pythonist!
 
 ## Usage
 
-See the [link](https://dexparser.readthedocs.io/en/latest/) for detail descriptions.
+See the [docs](https://dexparser.readthedocs.io/en/latest/) for detail descriptions.
 
 ### Pre-requirements
 
