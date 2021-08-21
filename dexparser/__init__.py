@@ -1,6 +1,8 @@
+from io import BytesIO
 from dexparser import disassembler
-from dexparser.errors import InsufficientParameterError
+from dexparser.errors import InsufficientParameterError, IsNotAPKFileFormatError
 from dexparser.utils import uleb128_value, encoded_field, encoded_method, encoded_annotation
+from zipfile import ZipFile, is_zipfile
 
 import struct
 import mmap
@@ -362,3 +364,97 @@ class Dexparser(object):
             'value_type': ord(value_type),
             'encoded_value': ord(encoded_value)
         }
+
+
+class APKParser(object):
+    """APK file format parser class
+    :param string filedir: APK file path
+    :param bytes fileobj: APK file object
+    :param boolean deepscan: Scan all assets of APK file for detect adex file
+    """
+    def __init__(self, filedir=None, fileobj=None, deepscan=False):
+        if not filedir and not fileobj:
+            raise InsufficientParameterError('fileobj or filedir parameter required.')
+
+        if filedir:
+            if not os.path.isfile(filedir):
+                raise FileNotFoundError
+
+            if not is_zipfile(filedir):
+                raise IsNotAPKFileFormatError(f"{filedir} is not an APK file format.")
+
+            self.zfile = ZipFile(filedir)
+
+        if fileobj:
+            if not is_zipfile(BytesIO(fileobj)):
+                raise IsNotAPKFileFormatError("Invalid APK file format.")
+
+            self.zfile = ZipFile(BytesIO(fileobj))
+
+        self.dexfiles = {}
+
+        if deepscan:
+            for filename in self.zfile.namelist():
+                stream = self.zfile.read(filename)
+                if len(stream) < 8:
+                    continue
+
+                if stream[0:4] == "dex\x0a":
+                    self.dexfiles[filename] = DEXParser(fileobj=stream)
+
+        else:
+            for filename in self.zfile.namelist():
+                if filename.endswith(".dex"):
+                    self.dexfiles[filename] = DEXParser(fileobj=self.zfile.read(filename))
+
+    @property
+    def is_multidex(self):
+        """Detect if APK is a multidex
+        https://developer.android.com/studio/build/multidex
+
+        :returns: boolean
+
+        example:
+            >>> APKParser(filedir='path/to/file.apk').is_multidex
+            True
+        """
+        return len(self.dexfiles.keys()) > 1
+
+    def get_dex(self, filename="classes.dex"):
+        """Get dex file with DEX parsed object
+
+        :params: name of dexfile (default: classes.dex)
+        :returns: DEXParser object
+
+        example:
+            >>> APKParser(filedir='path/to/file.apk').get_dex()
+            True
+        """
+        return self.dexfiles[filename]
+
+    def get_all_dex_filenames(self):
+        """Get all name of dex files
+        :returns: list of dex filenames
+
+        example:
+            >>> APKParser(filedir='path/to/file.apk').get_all_dex_filenames()
+            ['classes.dex', 'classes1.dex']
+        """
+        return list(self.dexfiles.keys())
+
+
+class AABParser(APKParser):
+    """AAB (Android App Bundle) file format parser class
+    :param string filedir: AAB file path
+    :param bytes fileobj: AAB file object
+    :param boolean deepscan: Scan all assets of AAB file for detect adex file
+    """
+    pass
+
+
+class DEXParser(Dexparser):
+    """DEX file format parser subclass
+    :param string filedir: DEX file path
+    :param bytes fileobj: DEX file object
+    """
+    pass
