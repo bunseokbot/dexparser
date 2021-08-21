@@ -381,7 +381,7 @@ class APKParser(object):
                 raise FileNotFoundError
 
             if not is_zipfile(filedir):
-                raise IsNotAPKFileFormatError(f"{filedir} is not an APK file format.")
+                raise IsNotAPKFileFormatError("{} is not an APK file format.".format(filedir))
 
             self.zfile = ZipFile(filedir)
 
