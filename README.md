@@ -62,4 +62,5 @@ This project is licensed under the MIT License
 
 ## Reference
 * [Dalvik Executable Format](https://source.android.com/devices/tech/dalvik/dex-format)
+* [dexparser released! (Korean)](https://iam.namjun.kim/opensource/2019/12/25/dexparser-released/)
 
