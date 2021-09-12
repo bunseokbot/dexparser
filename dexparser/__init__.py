@@ -21,7 +21,7 @@ class Dexparser(object):
         if filedir:
             if not os.path.isfile(filedir):
                 raise FileNotFoundError
- 
+
             with open(filedir, 'rb') as f:
                 self.data = mmap.mmap(f.fileno(), 0, access=mmap.ACCESS_READ)
 
@@ -76,7 +76,7 @@ class Dexparser(object):
             >>> Dexparser(filedir='path/to/classes.dex').checksum
             0x30405060
         """
-        return "%x" %self.header_data.get('checksum')
+        return "%x" % self.header_data.get('checksum')
 
     def get_strings(self):
         """Get string items from DEX file
@@ -136,7 +136,7 @@ class Dexparser(object):
             proto_idx = struct.unpack('<H', self.data[offset+(i*8)+2:offset+(i*8)+4])[0]
             name_idx = struct.unpack('<L', self.data[offset+(i*8)+4:offset+(i*8)+8])[0]
             methods.append({'class_idx': class_idx, 'proto_idx': proto_idx, 'name_idx': name_idx})
-    
+
         return methods
 
     def get_protoids(self):
@@ -157,7 +157,7 @@ class Dexparser(object):
             return_type_idx = struct.unpack('<L', self.data[offset+(i*12)+4:offset+(i*12)+8])[0]
             param_off = struct.unpack('<L', self.data[offset+(i*12)+8:offset+(i*12)+12])[0]
             protoids.append({'shorty_idx': shorty_idx, 'return_type_idx': return_type_idx, 'param_off': param_off})
-    
+
         return protoids
 
     def get_fieldids(self):
@@ -175,8 +175,8 @@ class Dexparser(object):
 
         for i in range(self.header_data['field_ids_size']):
             class_idx = struct.unpack('<H', self.data[offset+(i*8):offset+(i*8)+2])[0]
-            type_idx  = struct.unpack('<H', self.data[offset+(i*8)+2:offset+(i*8)+4])[0]
-            name_idx  = struct.unpack('<L', self.data[offset+(i*8)+4:offset+(i*8)+8])[0]
+            type_idx = struct.unpack('<H', self.data[offset+(i*8)+2:offset+(i*8)+4])[0]
+            name_idx = struct.unpack('<L', self.data[offset+(i*8)+4:offset+(i*8)+8])[0]
             fieldids.append({'class_idx': class_idx, 'type_idx': type_idx, 'name_idx': name_idx})
 
         return fieldids
@@ -207,14 +207,14 @@ class Dexparser(object):
         offset = self.header_data['class_defs_off']
 
         for i in range(self.header_data['class_defs_size']):
-            class_idx 			= struct.unpack('<L', self.data[offset+(i*32)   :offset+(i*32)+4])[0]
-            access_flag 		= struct.unpack('<L', self.data[offset+(i*32)+4 :offset+(i*32)+8])[0]
-            superclass_idx 		= struct.unpack('<L', self.data[offset+(i*32)+8 :offset+(i*32)+12])[0]
-            interfaces_off 		= struct.unpack('<L', self.data[offset+(i*32)+12:offset+(i*32)+16])[0]
-            source_file_idx 	= struct.unpack('<L', self.data[offset+(i*32)+16:offset+(i*32)+20])[0]
-            annotation_off 		= struct.unpack('<L', self.data[offset+(i*32)+20:offset+(i*32)+24])[0]
-            class_data_off 		= struct.unpack('<L', self.data[offset+(i*32)+24:offset+(i*32)+28])[0]
-            static_values_off 	= struct.unpack('<L', self.data[offset+(i*32)+28:offset+(i*32)+32])[0]
+            class_idx = struct.unpack('<L', self.data[offset+(i*32):offset+(i*32)+4])[0]
+            access_flag = struct.unpack('<L', self.data[offset+(i*32)+4:offset+(i*32)+8])[0]
+            superclass_idx = struct.unpack('<L', self.data[offset+(i*32)+8:offset+(i*32)+12])[0]
+            interfaces_off = struct.unpack('<L', self.data[offset+(i*32)+12:offset+(i*32)+16])[0]
+            source_file_idx = struct.unpack('<L', self.data[offset+(i*32)+16:offset+(i*32)+20])[0]
+            annotation_off = struct.unpack('<L', self.data[offset+(i*32)+20:offset+(i*32)+24])[0]
+            class_data_off = struct.unpack('<L', self.data[offset+(i*32)+24:offset+(i*32)+28])[0]
+            static_values_off = struct.unpack('<L', self.data[offset+(i*32)+28:offset+(i*32)+32])[0]
             sorted_access = [i for i in disassembler.ACCESS_ORDER if i & access_flag]
             classdef_data.append({
                 'class_idx': class_idx,
@@ -267,7 +267,7 @@ class Dexparser(object):
         virtual_methods = []
 
         static_field_size, sf_size = uleb128_value(self.data, offset)
-        offset += sf_size 
+        offset += sf_size
         instance_field_size, if_size = uleb128_value(self.data, offset)
         offset += if_size
         direct_method_size, dm_size = uleb128_value(self.data, offset)
@@ -346,13 +346,13 @@ class Dexparser(object):
                 'name_idx_diff': 30,
                 'value_type': 302,
                 'encoded_value': 7483
-            } 
+            }
         """
         class_annotation_off = struct.unpack('<L', self.data[offset	:offset+4])[0]
         class_annotation_size = struct.unpack('<L', self.data[class_annotation_off:class_annotation_off+4])[0]
         annotation_off_item = struct.unpack('<L', self.data[class_annotation_off+4: class_annotation_off+8])[0]
-        visibility = self.data[annotation_off_item : annotation_off_item + 1]
-        annotation = self.data[annotation_off_item + 1 : annotation_off_item + 8]
+        visibility = self.data[annotation_off_item: annotation_off_item + 1]
+        annotation = self.data[annotation_off_item + 1: annotation_off_item + 8]
         annotation_data = encoded_annotation(self.data, annotation_off_item + 1)
         type_idx_diff, size_diff, name_idx_diff, value_type, encoded_value = annotation_data
 
