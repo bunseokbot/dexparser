@@ -12,3 +12,4 @@ install:
 
 script:
   - python -m pytest -v
+  - pycodestyle --max-line-length=120 --exclude=build .
