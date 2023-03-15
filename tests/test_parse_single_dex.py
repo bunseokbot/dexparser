@@ -81,14 +81,12 @@ def test_parse_annotations():
 
 def test_parse_class_data():
     dex = Dexparser(filedir=TEST_DEX_FILEPATH)
-    offset = dex.get_classdef_data()[710]['static_values_off']
-
     for i, class_def in enumerate(dex.get_classdef_data()):
         offset = class_def['static_values_off']
         if offset == 0:
             continue
 
-        values = dex.get_static_values(offset=offset)
+        assert dex.get_static_values(offset=offset)
 
     dex = DEXParser(filedir=TEST_DEX_FILEPATH)
     offset = dex.get_classdef_data()[0]['static_values_off']

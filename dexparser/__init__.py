@@ -397,8 +397,8 @@ class Dexparser(object):
                     value_type == 0x19 or \
                     value_type == 0x1a or \
                     value_type == 0x1b:
-                # VALUE_BYTE, VALUE_SHORT, VALUE_INT, VALUE_LONG, VALUE_TYPE
-                # VALUE_FIELD, VALUE_METHOD, VALUE_ENUM
+                # VALUE_BYTE, VALUE_SHORT, VALUE_CHAR, VALUE_INT, VALUE_LONG, VALUE_TYPE
+                # VALUE_TYPE, VALUE_FIELD, VALUE_METHOD, VALUE_ENUM
                 value = 0
                 for i in range(value_arg + 1):
                     value |= (self.data[offset] << 8 * i)
