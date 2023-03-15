@@ -5,13 +5,13 @@ with open("README.md") as f:
 
 setup(
     name='dexparser',
-    version='1.1.1',
+    version='1.1.2',
     py_modules=['dexparser'],
     author='austinkim',
     author_email='austin.njkim@gmail.com',
     url='https://github.com/bunseokbot/dexparser',
     packages=find_packages(),
-    description='Powerful DEX file format parser for Pythonist',
+    description='Powerful DEX file format parser for Pythonista',
     long_description=long_description,
     long_description_content_type='text/markdown',
     classifiers=[
@@ -20,6 +20,8 @@ setup(
         'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
         'Programming Language :: Python :: 3.8',
+        'Programming Language :: Python :: 3.9',
+        'Programming Language :: Python :: 3.10',
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
     ],
