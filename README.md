@@ -43,7 +43,7 @@ filedir = '/path/to/test.apk'
 apk = APKParser(filedir=filedir)
 
 with open('/path/to/test.apk', 'rb') as fileobj:
-    apk = APKParser(fileobj=fileobj)
+    apk = APKParser(fileobj=fileobj.read())
 ```
 
 ### Load AAB file from object and filename
