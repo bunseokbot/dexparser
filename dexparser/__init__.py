@@ -93,8 +93,8 @@ class Dexparser(object):
 
         for i in range(self.header_data['string_ids_size']):
             offset = struct.unpack('<L', self.data[string_ids_off+(i*4):string_ids_off+(i*4)+4])[0]
-            c_size = self.data[offset]
-            c_char = self.data[offset+1:offset+1+c_size]
+            c_size, size_offset = uleb128_value(self.data, offset)
+            c_char = self.data[offset+size_offset:offset+size_offset+c_size]
             strings.append(c_char)
 
         return strings
