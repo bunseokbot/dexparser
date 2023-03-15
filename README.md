@@ -32,7 +32,7 @@ dex = DEXParser(filedir=filedir)
 from dexparser import DEXParser
 
 with open('classes.dex', 'rb') as fileobj:
-    dex = DEXParser(fileobj=fileobj)
+    dex = DEXParser(fileobj=fileobj.read())
 ```
 
 ### Load APK file from object and filename
@@ -54,7 +54,7 @@ filedir = '/path/to/test.apk'
 aab = AABParser(filedir=filedir)
 
 with open('/path/to/test.apk', 'rb') as fileobj:
-    aab = AABParser(fileobj=fileobj)
+    aab = AABParser(fileobj=fileobj.read())
 ```
 
 
