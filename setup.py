@@ -5,7 +5,7 @@ with open("README.md") as f:
 
 setup(
     name='dexparser',
-    version='1.1.2',
+    version='1.2.0',
     py_modules=['dexparser'],
     author='austinkim',
     author_email='austin.njkim@gmail.com',
