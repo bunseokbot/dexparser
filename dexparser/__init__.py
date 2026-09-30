@@ -435,6 +435,29 @@ class Dexparser(object):
 
         return result
 
+def get_type_list(self, offset):
+        """Get all static values parsed from 'instances_off' class_defs section or 'parameters_off' proto_ids section.
+
+        :param integer offset: interfaces_off or parameters_off offset value
+        :returns: list of indexes into type_ids
+
+        example:
+            >>> dex = Dexparser(filedir='path/to/classes.dex')
+            >>> dex.get_type_list(offset=3022)
+            [133, 355, 773, 494, ...]
+
+        """
+        if offset == 0:
+            return []
+        typeidxs = []
+        size = struct.unpack('<L', self.data[offset: offset + 4])[0]
+        offset += 4
+
+        for i in range(size):
+            idx = struct.unpack('<H', self.data[offset + (i * 2):offset + (i * 2) + 2])[0]
+            typeidxs.append(idx)
+
+        return typeidxs
 
 class APKParser(object):
     """APK file format parser class
